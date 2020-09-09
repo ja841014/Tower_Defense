@@ -1,0 +1,73 @@
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
+import java.util.Set;
+
+public class test {
+	public class TreeNode {
+		int val;
+		TreeNode left;
+		TreeNode right;
+		TreeNode() {}
+		TreeNode(int val) { this.val = val; }
+		TreeNode (int val, TreeNode left, TreeNode right) {
+			this.val = val;
+			this.left = left;
+			this.right = right;
+		}
+	}
+	public static void main(String[] args) {
+		TreeNode a = new TreeNode(2, null, null);
+		TreeNode b = new TreeNode(3, null, null);
+		TreeNode root = new TreeNode(1,a,b);
+		int[] to_delete = {2,8};
+		Set<Integer> delete_set = new HashSet<>();
+        for(int i : to_delete) {
+            delete_set.add(i);
+        }
+        
+        List<TreeNode> ls = new ArrayList<>();
+        TreeNode tmp = new TreeNode();
+        Queue<TreeNode> q = new LinkedList<>();
+        
+        q.offer(root);
+        ls.add(root);
+        while(!q.isEmpty()) {
+            int size = q.size();
+            for(int i = 0; i < size; i++) {
+                tmp = q.poll();
+                
+                if(delete_set.contains(tmp.val) == true) {
+                    if(ls.contains(tmp) == true) {
+                        ls.remove(tmp);
+                    }
+                    if(tmp.left != null) {
+                        ls.add(tmp.left);
+                    }
+                    if(tmp.right != null) {
+                        ls.add(tmp.right);
+                    }
+                }
+                
+                if(tmp.left != null) {
+                    q.offer(tmp.left);
+                    if(delete_set.contains(tmp.left.val) == true) {
+                        tmp.left = null;
+                    }
+                }
+                if(tmp.right != null) {
+                    q.offer(tmp.right);
+                    if(delete_set.contains(tmp.right.val) == true) {
+                        tmp.right = null;
+                    }
+                }
+                
+                
+                
+                
+            }
+        }
+	}
+}

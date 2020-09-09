@@ -7,6 +7,8 @@ public class Player {
 	
 	public Player(User user) {
 		// TODO Auto-generated constructor stub
+		this.money = user.startingMoney;
+		this.health = user.startingHealth;
 	}
 
 }

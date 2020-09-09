@@ -1,0 +1,16 @@
+package data;
+
+public class Tower {
+	
+	private String textureFile = "";
+	
+	public Tower() {
+		
+	}
+	
+	public Tower getTextureFile(String str) {
+		this.textureFile = str;
+		
+		return null;
+	}
+}

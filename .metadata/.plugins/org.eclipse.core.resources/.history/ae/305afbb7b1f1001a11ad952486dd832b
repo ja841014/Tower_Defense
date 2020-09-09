@@ -1,0 +1,10 @@
+package data;
+
+public class Player extends User{
+
+	public Player(Screen screen) {
+		super(screen);
+		// TODO Auto-generated constructor stub
+	}
+
+}

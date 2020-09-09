@@ -1,0 +1,64 @@
+// it is same function as CarComponent
+/*
+ * Extends JComponent. 
+ * Constructor initializes any necessary data and runs the simulation. 
+ * Overrides paintComponent to draw the bar graph, using Bar objects for each bar in the graph. 
+ * This class uses the CoinTossSimulator and Bar class.
+ * */
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import javax.swing.JComponent;
+
+/**
+   This component draws two car shapes.
+*/
+public class CoinSimComponent extends JComponent
+{  
+	private int TwoHeads;
+	private int TwoTails;
+	private int HeadTail;
+	private int Total_Trials;
+	// Bar fixed feature 
+	private final int bar_width = 20;
+	private final int vertical_buffer = 5;
+	
+	
+	public CoinSimComponent(int TwoHeads, int TwoTails, int HeadTail, int Total_Trials) {
+		this.TwoHeads = TwoHeads;
+		this.TwoTails= TwoTails;
+		this.HeadTail = HeadTail;
+		this.Total_Trials = Total_Trials;
+	}
+	
+	
+   public void paintComponent(Graphics g)
+   {  
+//     Bar(int bottom, int left, int width, int barHeight, double scale, Color color, String label)
+	   // getHeight()
+	   // getWidth()
+      Graphics2D g2 = (Graphics2D) g;
+      int tallestBar = getHeight() - 2 * vertical_buffer;
+      // scale set up
+      double scale_bar1 = (TwoHeads/Total_Trials) * 100;
+      
+      // color set up
+      Color color1 = Color.blue;
+      Color color2 = Color.red;
+      Color color3 = Color.green;
+      
+      // label set up
+      String str1 = "Two Heads: " + TwoHeads + "(" + scale_bar1 + "%)";
+      
+      Bar bar1 = new Bar(getHeight() - vertical_buffer, getWidth() / 4 - bar_width / 2, bar_width, tallestBar * scale_bar1 ,scale_bar1, color1, str1);
+      
+//      
+//      Car car1 = new Car(0, 0);
+//      int x = getWidth() - 60;
+//      int y = getHeight() - 30;
+//      Car car2 = new Car(x, y);
+//
+//      car1.draw(g2);
+//      car2.draw(g2);      
+   }
+}

@@ -1,0 +1,25 @@
+/*
+ * This program is used to test CoinTossSimulator class
+ * 
+ * */
+public class CoinTossSimulatorTester {
+	public static void main(String[] args) {
+		CoinTossSimulator test = new CoinTossSimulator();
+		System.out.println("After constructor: ");
+		System.out.print("Number of trials [exp:0]:");
+		System.out.println(test.getNumTrials());
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		
+		System.out.println();
+		System.out.println();
+		
+		
+		
+	}
+}

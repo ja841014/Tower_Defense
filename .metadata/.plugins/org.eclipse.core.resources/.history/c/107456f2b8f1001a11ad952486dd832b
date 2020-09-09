@@ -1,0 +1,21 @@
+package data;
+
+public class Tower {
+	
+	private String textureFile = "";
+	
+	// tower array;
+	public static final Tower[] towerlist = new Tower[200];
+	
+	public static final Tower lightningTower = new TowerLightning();
+	
+	public Tower(int id) {
+		
+	}
+	
+	public Tower getTextureFile(String str) {
+		this.textureFile = str;
+		
+		return null;
+	}
+}
