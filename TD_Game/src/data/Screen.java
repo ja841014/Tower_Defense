@@ -18,6 +18,7 @@ public class Screen extends JPanel implements Runnable{
 	Frame frame;
 	Level level;
 	LevelFile levelfile;
+	EnemyAI enemyAI;
 	Wave wave;
 	
 	/** Account*/
@@ -76,7 +77,6 @@ public class Screen extends JPanel implements Runnable{
 	@Override
 	public void paintComponent(Graphics g) {
 		
-		
 		// if we paint layer on layer on. will cause computer slow
 		// this.frame is point to the Frame class
 		this.g = (Graphics2D) g;
@@ -112,7 +112,7 @@ public class Screen extends JPanel implements Runnable{
 			for(int i = 0; i < enemyMap.length; i++) {
 				if(enemyMap[i] != null) {
 					// this may be problem because i didnot change the boarder ep17 10:10
-					g.drawImage(enemyMap[i].enemy.texture, (int)enemyMap[i].xPos + (int)towerwidth, enemyMap[i].yPos + (int)towerheight, (int)towerwidth, (int)towerheight, null);
+					g.drawImage(enemyMap[i].enemy.texture, (int)enemyMap[i].xPos + (int)towerwidth, (int)enemyMap[i].yPos + (int)towerheight, (int)towerwidth, (int)towerheight, null);
 				}
 			}
 			
@@ -220,7 +220,7 @@ public class Screen extends JPanel implements Runnable{
 		this.level.findSpawnPoint();
 		this.map = this.level.map;
 		
-		
+		this.enemyAI = new EnemyAI(this.level);
 		
 		this.scene = 1; //level 1
 		this.wave.waveNumber = 0;
@@ -262,7 +262,22 @@ public class Screen extends JPanel implements Runnable{
 		System.exit(0);
 	}
 	
+	public void enemyUpdate() {
+		for(int i = 0; i < enemyMap.length; i++) {
+			if(enemyMap[i] != null) {
+				if(!enemyMap[i].attack) {
+					EnemyAI.moveAI.move(enemyMap[i]);
+				}
+				
+				enemyMap[i].update();
+			}
+		}
+	}
+	
 	public void update() {
+		
+		enemyUpdate();
+		
 		if(wave.waveSpawning == true) {
 			wave.spawnEnemies();
 		}

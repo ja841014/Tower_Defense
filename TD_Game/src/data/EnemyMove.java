@@ -4,8 +4,8 @@ public class EnemyMove {
 	
 	Enemy enemy;
 	
-	int xPos;
-	int yPos;
+	double xPos;
+	double yPos;
 	
 	boolean attack;
 	
