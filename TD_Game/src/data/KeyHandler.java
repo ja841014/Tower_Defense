@@ -24,6 +24,11 @@ public class KeyHandler implements KeyListener{
 		// TODO Auto-generated method stub
 		int keyCode = e.getKeyCode();
 		System.out.println(e.getKeyCode());
+		
+		// enter = 10
+		if(keyCode == 10) {
+			this.keyTyped.keyENTER();
+		}
 		// 27 is esc button keycode, when we press "esc" will close rhe game
 		if(keyCode == 27) {
 			this.keyTyped.keyESC();
