@@ -7,6 +7,7 @@ import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.image.CropImageFilter;
 import java.awt.image.FilteredImageSource;
+import java.util.Random;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -15,6 +16,7 @@ import javax.swing.JPanel;
 public class Screen extends JPanel implements Runnable{
 	
 	Thread thread = new Thread(this);
+	
 	Frame frame;
 	Level level;
 	LevelFile levelfile;
@@ -25,6 +27,7 @@ public class Screen extends JPanel implements Runnable{
 	User user;
 	
 	private int fps = 0; // frame per second
+	
 	
 	public int scene;
 	
@@ -234,6 +237,8 @@ public class Screen extends JPanel implements Runnable{
 		// last time we update our fps
 		long lastframe = System.currentTimeMillis();
 		int frames = 0;
+		int synchronized_fps = 0;
+
 		
 		loadGame();
 		// the entire game run. all the thing run in here.
@@ -250,7 +255,23 @@ public class Screen extends JPanel implements Runnable{
 				lastframe = System.currentTimeMillis();
 			}
 			
-			update();
+			
+//			update();
+			double time = (double)System.currentTimeMillis() / 1000;
+			int timeMillisSec = (int)Math.round((time - (int)time) * 1000);
+			
+			// every 40 frame we update
+			if( timeMillisSec > synchronized_fps * 1000 / 25) { //Systme.currentTimeMillis() / 30 
+				synchronized_fps++;
+				update();
+				if(synchronized_fps == 1000 / 25) {
+					synchronized_fps = 0;
+				}
+			}
+			
+			if(timeMillisSec + 1000/25 < synchronized_fps * 1000 / 25) {
+				synchronized_fps = 0;
+			}
 			
 			try {
 				Thread.sleep(2);// we sleep 2 mili second every single frame
@@ -268,8 +289,51 @@ public class Screen extends JPanel implements Runnable{
 				if(!enemyMap[i].attack) {
 					EnemyAI.moveAI.move(enemyMap[i]);
 				}
+				// this method is make them die
+				enemyMap[i] = enemyMap[i].update(); //Currently Only check if they are dead or not
+			}
+		}
+	}
+	
+	public void towerUpdate() {
+		for(int x = 0; x < 22; x++) {
+			for(int y = 0; y < 13; y++) {
+				// the all tower on my Tower
+				if(towerMap[x][y] != null) {
+					towerAttack(x, y);
+				}
+			}
+		}
+	}
+	
+	public void towerAttack(int x, int y) {
+		// if this tower do not have enemy
+		if(this.towerMap[x][y].target == null) {
+			// Find a target for our tower
+			if(this.towerMap[x][y].attackDelay > this.towerMap[x][y].maxAttackDelay) {
+				EnemyMove currentEnemy = this.towerMap[x][y].calculateEnemy(enemyMap, x, y);
 				
-				enemyMap[i].update();
+				if(currentEnemy != null) {
+					currentEnemy.health -= this.towerMap[x][y].damage;
+					
+					this.towerMap[x][y].target = currentEnemy;
+					this.towerMap[x][y].attackTime = 0;
+					this.towerMap[x][y].attackDelay = 0; 
+					
+					System.out.println("[Tower] Enemy Attack! health: " + currentEnemy.health + " x: " + x +" y: " + y);
+				}
+			}
+			else {
+				this.towerMap[x][y].attackDelay += 1;
+			}
+		}
+		else {
+			if(this.towerMap[x][y].attackTime < this.towerMap[x][y].maxAttackTime) {
+				this.towerMap[x][y].attackTime += 1;
+			}
+			else {
+				// is we set it to null, we have to find a enemy again
+				this.towerMap[x][y].target = null;
 			}
 		}
 	}
@@ -277,6 +341,7 @@ public class Screen extends JPanel implements Runnable{
 	public void update() {
 		
 		enemyUpdate();
+		towerUpdate();
 		
 		if(wave.waveSpawning == true) {
 			wave.spawnEnemies();
@@ -284,11 +349,11 @@ public class Screen extends JPanel implements Runnable{
 	}
 	
 	
-	public void spawnEnemy() {
+	public void spawnEnemy(int enemyID) {
 		for(int i = 0; i < enemyMap.length; i++) {
 			// if it is not null, we know there already has a enemy there
 			if(enemyMap[i] == null) {
-				enemyMap[i] = new EnemyMove(Enemy.enemyList[0], level.spawnPoint);
+				enemyMap[i] = new EnemyMove(Enemy.enemyList[i], level.spawnPoint);
 				break;
 			}
 		}
@@ -307,7 +372,7 @@ public class Screen extends JPanel implements Runnable{
 			if(towerMap[xPos][yPos] == null && map[xPos][yPos] == 0) {
 				user.player.money = user.player.money - Tower.towerlist[hand - 1].cost;
 				
-				towerMap[xPos][yPos] = Tower.towerlist[hand - 1];
+				towerMap[xPos][yPos] = (Tower) Tower.towerlist[hand - 1].clone();
 			}
 		}		
 	}

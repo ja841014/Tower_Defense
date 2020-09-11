@@ -40,16 +40,16 @@ public class EnemyAIMove extends EnemyAI{
 			double xPos = enemy.xPos / Screen.towerSize;
 			double yPos = enemy.yPos / Screen.towerSize;
 			if(xPos > enemy.routePosx) {
-				enemy.xPos = enemy.xPos - (enemy.enemy.speed / 24);
+				enemy.xPos = enemy.xPos - (enemy.enemy.speed );
 			}
 			if(xPos < enemy.routePosx) {
-				enemy.xPos = enemy.xPos + (enemy.enemy.speed / 24);
+				enemy.xPos = enemy.xPos + (enemy.enemy.speed  );
 			}
 			if(yPos > enemy.routePosY) {
-				enemy.yPos = enemy.yPos - (enemy.enemy.speed / 24);
+				enemy.yPos = enemy.yPos - (enemy.enemy.speed );
 			}
 			if(yPos < enemy.routePosY) {
-				enemy.yPos = enemy.yPos + (enemy.enemy.speed / 24);
+				enemy.yPos = enemy.yPos + (enemy.enemy.speed );
 			}
 		}
 	}

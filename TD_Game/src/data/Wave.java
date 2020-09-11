@@ -1,11 +1,15 @@
 package data;
 
+import java.util.Random;
+
 public class Wave {
 	Screen screen;
 	
 	int waveNumber = 0;
-	int enemiesThisRound = 0;
-	int enemiesperRound = 10;
+	int pointsThisRound;
+	
+	int currentpoints;
+
 	
 	
 	boolean waveSpawning;
@@ -17,7 +21,8 @@ public class Wave {
 	// reset because next round is coming
 	public void nextWave() {
 		this.waveNumber++;
-		this.enemiesThisRound = 0;
+		this.pointsThisRound = this.waveNumber * 10;
+		this.currentpoints = 0;
 		this.waveSpawning = true;
 		
 		System.out.println("[Wave] wave" + this.waveNumber + "incoming!");
@@ -28,20 +33,34 @@ public class Wave {
 	}
 	
 	private int currentDelay = 0;
-	private int spawnRate = 1000; // per frame
+	private int spawnRate = 75; // per frame
 	
 	// screen class will call this spawnEnemies as long as waveSpawnung == true
 	public void spawnEnemies() {
-		if(this.enemiesThisRound < this.waveNumber * this.enemiesperRound) {
+		if(this.currentpoints < this.pointsThisRound) {
 			if(currentDelay < spawnRate) {
 				currentDelay++;
 			}
 			else {
 				currentDelay = 0;
 				
+				int[] enemiesSpawnableID = new int[Enemy.enemyList.length];
+				int enemiesSpawnableSoFar = 0;
+				
 				System.out.println("Wave Enemy Spawned");
-				this.enemiesThisRound++;
-				this.screen.spawnEnemy();
+				for(int i = 0; i < Enemy.enemyList.length; i++) {
+					if(Enemy.enemyList[i] != null) {
+						if(Enemy.enemyList[i].point + currentpoints <= this.pointsThisRound) {
+							enemiesSpawnableID[enemiesSpawnableSoFar] = Enemy.enemyList[i].id;
+							enemiesSpawnableSoFar++;
+						}
+					}
+				}
+				
+				int enemyID = new Random().nextInt(enemiesSpawnableSoFar);
+				this.currentpoints += Enemy.enemyList[enemyID].point;
+				this.screen.spawnEnemy(enemiesSpawnableID[enemyID]);
+				
 			}
 		}
 		else {
