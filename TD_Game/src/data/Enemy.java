@@ -8,10 +8,10 @@ public class Enemy {
 	// maximum kinds of
 	public static final Enemy[] enemyList = new Enemy[20];
 	
-	public static final Enemy SLIM_ENEMY = new EnemySlime(0, 5, 2, 4, 1, 1, 4).getTextureFile("EnemySlime.png");
-	public static final Enemy ENEMY2 = new EnemySlime(1, 5, 5, 10, 2, 2, 7).getTextureFile("enemy2.png");
-	public static final Enemy ENEMY3 = new EnemySlime(2, 5, 10, 18, 5, 2, 3).getTextureFile("enemy3.png");
-	public static final Enemy ENEMY4 = new EnemySlime(3, 5, 20, 25, 10, 1, 2).getTextureFile("enemy4.png");
+	public static final Enemy SLIM_ENEMY = new EnemySlime(0, 5, 2, 200, 1, 1, 4).getTextureFile("EnemySlime.png");
+	public static final Enemy ENEMY2 = new EnemySlime(1, 5, 5, 300, 2, 2, 7).getTextureFile("enemy2.png");
+	public static final Enemy ENEMY3 = new EnemySlime(2, 5, 10, 480, 5, 3, 3).getTextureFile("enemy3.png");
+	public static final Enemy ENEMY4 = new EnemySlime(3, 5, 20, 500, 10, 5, 2).getTextureFile("enemy4.png");
 
 	public String textureFile = "";
 	public Image texture = null;

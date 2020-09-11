@@ -10,9 +10,13 @@ public class Tower implements Cloneable{
 	public Image texture;
 	
 	// tower array;
-	public static final Tower[] towerlist = new Tower[200];
+	public static final Tower[] towerlist = new Tower[36];
 	
-	public static final Tower lightningTower = new TowerLightning(0, 10, 2, 4, 3, 3).getTextureFile("lightningtower");
+	public static final Tower lightningTower = new TowerLightning(0, 10, 2, 4, 150, 15).getTextureFile("lightningtower");
+	public static final Tower lightningTower2 = new TowerLightning(1, 25, 3, 6, 150, 15).getTextureFile("backup");
+	public static final Tower lightningTower3 = new TowerLightning(2, 50, 4, 6, 150, 12).getTextureFile("magictower");
+	public static final Tower lightningTower4 = new TowerLightning(3, 75, 5, 10, 210, 21).getTextureFile("magictower");
+
 	
 	public int id;
 	public int cost;

@@ -50,7 +50,8 @@ public class Wave {
 				System.out.println("Wave Enemy Spawned");
 				for(int i = 0; i < Enemy.enemyList.length; i++) {
 					if(Enemy.enemyList[i] != null) {
-						if(Enemy.enemyList[i].point + currentpoints <= this.pointsThisRound) {
+						if(Enemy.enemyList[i].point + currentpoints <= this.pointsThisRound && Enemy.enemyList[i].point <= this.waveNumber) {
+							
 							enemiesSpawnableID[enemiesSpawnableSoFar] = Enemy.enemyList[i].id;
 							enemiesSpawnableSoFar++;
 						}

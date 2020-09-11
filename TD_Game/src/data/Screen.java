@@ -1,6 +1,7 @@
 package data;
 // Note: I do not change the thing in episode 13
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -11,6 +12,7 @@ import java.util.Random;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
+
 
 
 public class Screen extends JPanel implements Runnable{
@@ -85,14 +87,17 @@ public class Screen extends JPanel implements Runnable{
 		this.g = (Graphics2D) g;
 		g.clearRect(0, 0, this.frame.getWidth(), this.frame.getHeight());
 		if(scene == 0) {
-			// Main scrren sis blue
-			g.setColor(Color.BLUE);
+			// Main screen sis blue
+			g.setColor(new Color(30, 100, 100, 128));
 			g.fillRect(0, 0, this.frame.getWidth(), this.frame.getHeight() );
+			g.setColor(Color.BLACK);
+			g.setFont(new Font("Click Space to Start", Font.ITALIC, 76)); 
+			g.drawString("Click Space to Start", 1440/2 - 350, 826 / 2);
 
 		}
 		// in the game
 		else if(scene == 1){
-			g.setColor(Color.GREEN);
+			g.setColor(Color.BLACK);
 			g.fillRect(0, 0, this.frame.getWidth(), this.frame.getHeight() );
 			
 			
@@ -171,6 +176,12 @@ public class Screen extends JPanel implements Runnable{
 						g.setColor(new Color(64,64,64,64));
 						g.fillOval((int)towerwidth + (x * (int)towerwidth) - (towerMap[x][y].range * 2 * (int)towerwidth + (int)towerwidth) / 2 + (int)towerwidth / 2, (int)towerheight + (y * (int)towerheight) - (towerMap[x][y].range * 2 * (int)towerheight + (int)towerheight) / 2 + (int)towerheight / 2, towerMap[x][y].range * 2 * (int)towerwidth + (int)towerwidth , towerMap[x][y].range * 2 * (int)towerheight + (int)towerheight);
 						g.drawImage(Tower.towerlist[towerMap[x][y].id].texture, (int)towerwidth + (x * (int)towerwidth), (int)towerheight + (y * (int)towerheight), (int)towerwidth, (int)towerheight, null);
+						
+						// if tower attacking draw shooting
+						if(towerMap[x][y].target != null) {
+							g.setColor(Color.ORANGE);
+							g.drawLine((int)towerwidth + (x * (int)towerwidth) + (int)towerSize / 2, (int)towerheight + (y * (int)towerheight) + (int)towerSize / 2, (int)towerSize + (int)towerMap[x][y].target.xPos + (int)towerSize / 2, (int)towerSize + (int)towerMap[x][y].target.yPos + (int)towerSize / 2);
+						}
 					}
 				}
 				
@@ -391,20 +402,18 @@ public class Screen extends JPanel implements Runnable{
 				if(mouseDown == true && hand == 0) {
 					// in the shop area X , Y 軸很奇怪 差了大概２５pixal
 					if(e.getXOnScreen() >= towerShop_X && e.getXOnScreen() <= towerShop_X + (int)(towerwidth * 20) && e.getYOnScreen() >= towerShop_Y + 25 && e.getYOnScreen() <= towerShop_Y  + (int)(towerheight * 2) + 25) {
-						// tower1
-//						System.out.println(towerShop_Y);
-//						System.out.println(towerShop_Y  + towerheight * 2 );
-						System.out.println(e.getXOnScreen());
-						System.out.println(e.getYOnScreen());
-//						System.out.println(frame.getWidth());
-//						System.out.println(frame.getHeight());
-						// buy the first tower, so hand is 1
-						if(e.getXOnScreen() >= towerShop_X && e.getXOnScreen() <= towerShop_X + (int)towerwidth && e.getYOnScreen() >= towerShop_Y + 25 && e.getYOnScreen() <= towerShop_Y+ (int)towerheight + 25) {
-							if(user.player.money >= Tower.towerlist[0].cost) {
-								System.out.println("[Shop] You bought a tower for" + Tower.towerlist[0].cost + "!");
-								hand = 1;
+						for(int i = 0; i < Tower.towerlist.length; i++) {
+							// buy the first tower, so hand is 1
+							if(e.getXOnScreen() >= towerShop_X + (i / 2) * (int)towerSize && e.getXOnScreen() <= towerShop_X + (int)towerwidth + (i / 2) * (int)towerSize && e.getYOnScreen() >= towerShop_Y + 25 + (i % 2) * (int)towerSize && e.getYOnScreen() <= towerShop_Y+ (int)towerheight + 25 + (i % 2) * (int)towerSize ) {
+								if(user.player.money >= Tower.towerlist[i].cost) {
+									System.out.println("[Shop] You bought a tower for" + Tower.towerlist[i].cost + "!");
+									hand = i + 1;
+									
+									return;
+								}
 							}
 						}
+						
 					}
 				}
 			}

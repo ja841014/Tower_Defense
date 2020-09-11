@@ -8,6 +8,7 @@ public class EnemyAIMove extends EnemyAI{
 	}
 	
 	public void move(EnemyMove enemy) {
+	
 //		System.out.println("ENEMYAIMOVE");
 		// here have tower size!! careful
 		// if it in the exacntly on the corner. this condition is corner case.
@@ -41,15 +42,30 @@ public class EnemyAIMove extends EnemyAI{
 			double yPos = enemy.yPos / Screen.towerSize;
 			if(xPos > enemy.routePosx) {
 				enemy.xPos = enemy.xPos - (enemy.enemy.speed );
+				if(enemy.xPos < enemy.routePosx * (int)Screen.towerSize) {
+					enemy.xPos = enemy.routePosx * (int)Screen.towerSize;
+				}
 			}
+			
 			if(xPos < enemy.routePosx) {
 				enemy.xPos = enemy.xPos + (enemy.enemy.speed  );
+				if(enemy.xPos > enemy.routePosx * (int)Screen.towerSize) {
+					enemy.xPos = enemy.routePosx * (int)Screen.towerSize;
+				}
 			}
+			
 			if(yPos > enemy.routePosY) {
 				enemy.yPos = enemy.yPos - (enemy.enemy.speed );
+				if(enemy.yPos < enemy.routePosY * (int)Screen.towerSize) {
+					enemy.yPos = enemy.routePosY * (int)Screen.towerSize;
+				}
 			}
+			
 			if(yPos < enemy.routePosY) {
 				enemy.yPos = enemy.yPos + (enemy.enemy.speed );
+				if(enemy.yPos > enemy.routePosY * (int)Screen.towerSize) {
+					enemy.yPos = enemy.routePosY * (int)Screen.towerSize;
+				}
 			}
 		}
 	}
