@@ -11,11 +11,11 @@ This is my first time to write classical tower defense game for self training. I
 
 <img alt="Initial the Map" src="https://github.com/ja841014/Tower_Defense/blob/master/pic/Init.png" width="600">
 
-### Place Some Tower
+### Place Some Towers
 
 <img alt="PlaceTower" src="https://github.com/ja841014/Tower_Defense/blob/master/pic/PlaceTower.png" width="600">
 
-### Attacking Enemy
+### Attacking Enemies
 
 <img alt="PlaceTower" src="https://github.com/ja841014/Tower_Defense/blob/master/pic/Attack.png" width="600">
 
