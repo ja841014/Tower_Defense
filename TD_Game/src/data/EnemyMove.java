@@ -25,7 +25,14 @@ public class EnemyMove {
 		this.yPos = spawnPoint.getY() * (int)Screen.towerSize;
 		
 		this.attack = false;
-		this.health = enemy.health;
+		if(enemy.health > 0) {
+			this.health = enemy.health;
+			System.out.println("[EnemyMove]:: Health!!");
+		}
+		else {
+			System.out.println("[EnemyMove]:: No Health!!");
+		}
+		
 		
 	}
 	// when enemy call this update class, will take enemy call this update class

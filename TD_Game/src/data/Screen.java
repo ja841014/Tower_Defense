@@ -119,7 +119,7 @@ public class Screen extends JPanel implements Runnable{
 			// Enemies
 			for(int i = 0; i < enemyMap.length; i++) {
 				if(enemyMap[i] != null) {
-					// this may be problem because i didnot change the boarder ep17 10:10
+					// this may be problem because i did not change the boarder ep17 10:10
 					g.drawImage(enemyMap[i].enemy.texture, (int)enemyMap[i].xPos + (int)towerwidth, (int)enemyMap[i].yPos + (int)towerheight, (int)towerwidth, (int)towerheight, null);
 				}
 			}
@@ -364,8 +364,11 @@ public class Screen extends JPanel implements Runnable{
 		for(int i = 0; i < enemyMap.length; i++) {
 			// if it is not null, we know there already has a enemy there
 			if(enemyMap[i] == null) {
-				enemyMap[i] = new EnemyMove(Enemy.enemyList[i], level.spawnPoint);
+				enemyMap[i] = new EnemyMove(Enemy.enemyList[enemyID], level.spawnPoint);
 				break;
+			}
+			else {
+				System.out.println("[Screen spawnEnemy]::contain enemy");
 			}
 		}
 	}
