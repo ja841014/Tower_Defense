@@ -4,18 +4,19 @@ import java.awt.Image;
 import java.util.Random;
 
 import javax.swing.ImageIcon;
-public class Tower implements Cloneable{
+public abstract class Tower implements Cloneable{
 	
 	public String textureFile = "";
 	public Image texture;
 	
-	// tower array;
+	// tower array; how mant kind of array
 	public static final Tower[] towerlist = new Tower[36];
 	
-	public static final Tower lightningTower = new TowerLightning(0, 10, 2, 4, 150, 15).getTextureFile("lightningtower");
-	public static final Tower lightningTower2 = new TowerLightning(1, 25, 3, 6, 150, 15).getTextureFile("backup");
-	public static final Tower lightningTower3 = new TowerLightning(2, 50, 4, 6, 150, 12).getTextureFile("magictower");
-	public static final Tower lightningTower4 = new TowerLightning(3, 75, 5, 10, 210, 21).getTextureFile("magictower");
+	public static final Tower lightningTower = new TowerLightning(0, 10, 2, 4, 6, 15).getTextureFile("lightningtower");
+	public static final Tower lightningTower2 = new TowerLightning(1, 25, 3, 6, 6, 15).getTextureFile("backup");
+	public static final Tower lightningTower3 = new TowerLightning(2, 50, 4, 6, 15, 12).getTextureFile("magictower");
+	public static final Tower lightningTower4 = new TowerLightning(3, 75, 5, 10, 15, 21).getTextureFile("magictower");
+	public static final Tower missileTOWER = new TowerMissile(4, 10, 3, 2, 1, 17).getTextureFile("missel");
 
 	
 	public int id;
@@ -81,8 +82,8 @@ public class Tower implements Cloneable{
 				
 				int dx = enemyX - towerX;
 				int dy = enemyY - towerY;
-				int dradius = towerRadius + enemyRadius;
-				if(dx * dx + dy * dy < dradius) {
+				int dradius = towerRadius;
+				if(dx * dx + dy * dy < dradius*dradius) {
 					// enemy is in the shooting area
 					enemiesInRange[i] = enemies[i];
 				}
@@ -121,6 +122,9 @@ public class Tower implements Cloneable{
 		
 		return null;
 	}
+	
+	public abstract void towerAttack(int Posx, int Posy, EnemyMove enemy);
+	
 	
 	protected Object clone() {
 		try {

@@ -6,6 +6,13 @@ public class TowerLightning extends Tower{
 		super(id, cost, range, damage, maxAttackTime, maxAttackDelay);
 		// TODO Auto-generated constructor stub
 	}
+
+	@Override
+	public void towerAttack(int x, int y, EnemyMove enemy) {
+		// TODO Auto-generated method stub
+		enemy.health -= this.damage;
+
+	}
 	
 	
 }

@@ -57,7 +57,7 @@ public class Screen extends JPanel implements Runnable{
 	
 	// represent how many enemy on the map on the same time
 	public EnemyMove[] enemyMap = new EnemyMove[200];
-	private int enemies = 0;
+	public static Missile[] missiles = new Missile[10];
 	
 	
 	public String packagename = "data"; // maybe problem
@@ -179,12 +179,22 @@ public class Screen extends JPanel implements Runnable{
 						
 						// if tower attacking draw shooting
 						if(towerMap[x][y].target != null) {
-							g.setColor(Color.ORANGE);
-							g.drawLine((int)towerwidth + (x * (int)towerwidth) + (int)towerSize / 2, (int)towerheight + (y * (int)towerheight) + (int)towerSize / 2, (int)towerSize + (int)towerMap[x][y].target.xPos + (int)towerSize / 2, (int)towerSize + (int)towerMap[x][y].target.yPos + (int)towerSize / 2);
+							if(towerMap[x][y] instanceof TowerLightning) {
+								g.setColor(Color.ORANGE);
+								g.drawLine((int)towerwidth + (x * (int)towerwidth) + (int)towerSize / 2, (int)towerheight + (y * (int)towerheight) + (int)towerSize / 2, (int)towerSize + (int)towerMap[x][y].target.xPos + (int)towerSize / 2, (int)towerSize + (int)towerMap[x][y].target.yPos + (int)towerSize / 2);
+							}
+							
 						}
 					}
 				}
 				
+			}
+			
+			// Missiles
+			for(int i = 0; i < missiles.length; i++) {
+				if(missiles[i] != null) {
+					g.drawImage(missiles[i].texture, (int)missiles[i].x, (int)missiles[i].y, 20, 20, null);
+				}
 			}
 			
 			
@@ -202,6 +212,8 @@ public class Screen extends JPanel implements Runnable{
 		
 		// FPS AT THE BOTTOM  10 pixel to right and 10 pixel to down
 		g.drawString(fps + "", 10, 10);
+		
+		frames++;
 
 	}
 	
@@ -241,13 +253,13 @@ public class Screen extends JPanel implements Runnable{
 		
 	}
 	
-	
+	int frames = 0;
 	public void run() {
 		// TODO Auto-generated method stub
 		System.out.println("Success Frame Created");
 		// last time we update our fps
 		long lastframe = System.currentTimeMillis();
-		int frames = 0;
+		
 		int synchronized_fps = 0;
 
 		
@@ -257,7 +269,7 @@ public class Screen extends JPanel implements Runnable{
 			// draw sth on the screen
 			repaint();
 			
-			frames++;
+			
 			
 			// when we meet 1 second
 			if(System.currentTimeMillis() - 1000 >= lastframe) {
@@ -325,7 +337,7 @@ public class Screen extends JPanel implements Runnable{
 				EnemyMove currentEnemy = this.towerMap[x][y].calculateEnemy(enemyMap, x, y);
 				
 				if(currentEnemy != null) {
-					currentEnemy.health -= this.towerMap[x][y].damage;
+					this.towerMap[x][y].towerAttack(x, y, currentEnemy);
 					
 					this.towerMap[x][y].target = currentEnemy;
 					this.towerMap[x][y].attackTime = 0;
@@ -349,10 +361,24 @@ public class Screen extends JPanel implements Runnable{
 		}
 	}
 	
+	public void missileUpdate() {
+		for(int i = 0; i < missiles.length; i++) {
+			if(missiles[i] != null) {
+				
+				missiles[i].update();
+				if(missiles[i].target == null) {
+					missiles[i] = null;
+				}
+				
+			}
+		}
+	}
+	
 	public void update() {
 		
 		enemyUpdate();
 		towerUpdate();
+		missileUpdate();
 		
 		if(wave.waveSpawning == true) {
 			wave.spawnEnemies();
